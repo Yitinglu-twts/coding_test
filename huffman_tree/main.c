@@ -3,16 +3,19 @@
 #include <stdint.h>
 
 #include "ascii_tbl_mgt.h"
-
+/*********************************
+*   define macro
+**********************************/
 #define FILE_NAME "msg.txt"
 
 /*********************************
 *   define prototype
 **********************************/
-/*
+/**********************************
 *   local variable
-*/
+**********************************/
 ascii_mgt_hdl ascii_hdl;
+/*********************************/
 
 void file_parse(const char *p_filename)
 {

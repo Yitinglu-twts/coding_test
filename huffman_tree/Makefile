@@ -1,5 +1,6 @@
 CC := gcc
 CFLAGS := -g -Wall
+INC := -I.
 AddrSanitizer := -fsanitize=address
 LDFLAGS :=
 
@@ -14,22 +15,26 @@ TARGET := human_tree
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) $(AddrSanitizer) $(OBJS)  -o $(TARGET)
 
+
 .PHONY: test
 test:
 	@echo OBJS = $(OBJS)
 	@echo DEPS = $(DEPS)
 	@echo PID = $$$$
+	@echo foo = $(foo)
 
 
+POSTCOMPILE :=
+%.o: %.c %.dep
+	$(CC) $(CFLAGS) $(INC) $(AddrSanitizer) -c $< -MMD -MP -MF $*.dep
+	$(POSTCOMPILE)
 
-%.o:%.c
-	$(CC) $(CFLAGS) $(AddrSanitizer) -c $< -MMD
 
-%.dep:%.d
-	mv $< $@
+%.dep:;
+
 
 -include $(DEPS)
 
 .PHONY: clean
 clean:
-	rm -f *.o  *.d $(TARGET)
+	rm -f *.o  *.dep $(TARGET)
